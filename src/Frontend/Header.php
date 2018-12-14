@@ -123,7 +123,7 @@ class Header {
 			}
 
 			echo '<span class="logo">';
-			echo Utils::svgUse(get_theme_mod('logo_' . $type . '_svg_id'), $htmlattr);
+			echo Utils::svgUse(get_theme_mod('logo_' . $type . '_svg_id'), $htmlattr, ['class' => "logo-$type"]);
 			//echo app\svg_use(get_theme_mod('logo_'.$type.'_svg_id'), $logo_max_width_style);
 			echo '</span>';
 		} else if (get_theme_mod('logo_' . $type)) {
