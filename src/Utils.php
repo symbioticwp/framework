@@ -108,25 +108,26 @@ class Utils {
 	 * @return string
 	 */
 	public static function get_current_pagename_id() {
-		$pagename = get_query_var( 'pagename' );
+		// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
+		global $wp_query;
+		$post = $wp_query->get_queried_object();
 
-		if ( ! $pagename ) {
+		if ( $post != null ) {
+			$pagename = property_exists( $post, 'post_name' ) ? $post->post_name : $post->name;
 
-			// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
-			global $wp_query;
-			$post = $wp_query->get_queried_object();
-			if ( $post != null ) {
-				$pagename = property_exists( $post, 'post_name' ) ? $post->post_name : $post->name;
+			$postType = get_post_type_object( get_post_type( $post ) );
 
-				$postType = get_post_type_object( get_post_type( $post ) );
-				if ( $postType ) {
-					if ( is_single() ) {
-						$pagename = strtolower( $postType->labels->singular_name . '-single' );
-					}
+			if ( $postType ) {
+				if ( is_single() ) {
+					$pagename = strtolower( $postType->labels->singular_name . '-single' );
 				}
-			} else {
-				$pagename = "page-" . self::getToken( 4 );
 			}
+		} else {
+			$pagename = "page-" . self::getToken( 4 );
+		}
+
+		if(!$pagename) {
+			$pagename = get_query_var( 'pagename' );
 		}
 		return $pagename;
 	}
