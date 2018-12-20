@@ -24,13 +24,15 @@ class BlockWrapper {
 	}
 
 	public function get_classnames() {
-		return apply_filters('symbiotic/frontend/sb_wrapper/get_classnames', sprintf('class="%s"',
-			join(' ', [
-				'page-content',
-				'page-content-ajax',
-				$this->get_data_namespace() . '-page',
-				'wrap'
-			])));
+		$classnames = apply_filters('symbiotic/frontend/sb_wrapper/get_classnames', [
+			'page-content',
+			'page-content-ajax',
+			$this->get_data_namespace() . '-page',
+			'wrap'
+		]);
+
+		return sprintf('class="%s"',
+			join(' ', $classnames));
 	}
 
 	public function get_data_types() {

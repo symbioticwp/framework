@@ -84,6 +84,8 @@ class Header {
 	        	break;
         }
 
+        $classes = apply_filters('symbiotic/frontend/nav/get_classnames', $classes);
+
         return join(' ', $classes);
     }
 
