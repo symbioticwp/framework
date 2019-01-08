@@ -50,7 +50,7 @@ class Body {
         $id = 'id='.$id;
       }
 
-      return apply_filters('symbiotic/frotnend/body/get_id', $id);
+      return apply_filters('symbiotic/frontnend/body/get_id', $id);
   }
 
   public function get_data_types() {
