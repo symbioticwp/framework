@@ -28,29 +28,16 @@ class Body {
   /**
    * [get_id description]
    * @return [type] [description]
+   *
+   * ATTENTION: IF YOU CHANGE THIS FUNCTION DO THIS ALSO
    */
    public function get_id($raw = false) {
-      $id= "undefined"; // set default home
+	$id = apply_filters('symbiotic/frontend/body/get_id', Utils::get_current_page_namespace());
 
-      // Add page slug if it doesn't exist
-      if(is_front_page()) {
-        $id = "home";
-      }
-      else if (is_single()) {
-        $id = "single-post";
-      } elseif(is_home()) {
-        $id ="blog";
-      } else {
-        //$uri_parts = explode('?', get_permalink(), 2);
-        $id = basename(strtok(get_permalink(), '?'));
-        //$uri_parts[0];
-      }
-
-      if(!$raw) {
-        $id = 'id='.$id;
-      }
-
-      return apply_filters('symbiotic/frontnend/body/get_id', $id);
+	if(!$raw) {
+		$id = 'id='. join('-', $id);
+	}
+	return $id;
   }
 
   public function get_data_types() {

@@ -37,7 +37,7 @@ class BlockWrapper {
 
 	public function get_data_types() {
 		$data_attr = [
-			'data-node-name' => $this->get_data_namespace().'-page',
+			'data-node-name' => $this->get_data_namespace(),
 			'data-node-type' => $this->get_data_namespace(),
 			'data-meta-title' => get_the_title(),
 			'data-is-home' => is_front_page() ? 1 : 0
@@ -46,13 +46,8 @@ class BlockWrapper {
 	}
 
 	public function get_data_namespace() {
-		$namespace = '';
-		if(is_front_page()) {
-			$namespace = 'home';
-		} else {
-			$namespace = Utils::get_current_pagename_id();
-		}
-		return apply_filters('symbiotic/frontend/pagesection/get_data_namespace', $namespace);
+		$id = apply_filters('symbiotic/frontend/pagesection/get_data_namespace', Utils::get_current_page_namespace());
+		return join('-', $id);
 	}
 
 	public function getDataMetaTitle() {

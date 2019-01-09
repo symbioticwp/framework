@@ -92,6 +92,38 @@ class Utils {
 	}
 
 	/**
+	 *
+	 */
+	public static function get_current_page_namespace() {
+		if(is_front_page()) {
+			$id[] = "home";
+		}
+		else if(is_archive()) {
+			if(is_post_type_archive()) {
+				$id[] = get_post_type(get_the_ID());
+			}
+			$id[] = "archive";
+		}
+		elseif(is_home()) {
+			$id[] ="blog";
+		}
+		else if(is_page()) {
+			global $wp_query;
+			$post = $wp_query->get_queried_object();
+			if($post != null && property_exists($post, 'post_name'))
+				$pagename = $post->post_name;
+			else
+				$pagename = "";
+			$id[] = $pagename;
+		}
+		else if(is_single()) {
+			$id[] = "single-".get_post_type(get_the_ID());
+		}
+		return $id;
+	}
+
+
+	/**
 	 * @param $var
 	 *
 	 * @return null
