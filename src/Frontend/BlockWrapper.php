@@ -36,10 +36,11 @@ class BlockWrapper {
 	}
 
 	public function get_data_types() {
+
 		$data_attr = [
 			'data-node-name' => $this->get_data_namespace(),
 			'data-node-type' => $this->get_data_namespace(),
-			'data-meta-title' => get_the_title(),
+			'data-meta-title' => wp_title('&raquo;',false),
 			'data-is-home' => is_front_page() ? 1 : 0
 		];
 		return apply_filters('symbiotic/frontend/pagesection/get_data_types', Utils::attrToArray($data_attr));
@@ -56,6 +57,28 @@ class BlockWrapper {
 		}
 
 		return ucfirst($this->get_data_namespace()) . ' Page';
+	}
+
+	private function yoastVariableToTitle($post_id) {
+		$yoast_title = get_post_meta($post_id, '_yoast_wpseo_title', true);
+		$title = strstr($yoast_title, '%%', true);
+		if (empty($title)) {
+			$title = get_the_title($post_id);
+		}
+		$wpseo_titles = get_option('wpseo_titles');
+
+		$sep_options = \WPSEO_Option_Titles::get_instance()->get_separator_options();
+		if (isset($wpseo_titles['separator']) && isset($sep_options[$wpseo_titles['separator']])) {
+			$sep = $sep_options[$wpseo_titles['separator']];
+		} else {
+			$sep = '-'; //setting default separator if Admin didn't set it from backed
+		}
+
+		$site_title = get_bloginfo('name');
+
+		$meta_title = $title . ' ' . $sep . ' ' . $site_title;
+
+		return $meta_title;
 	}
 
 
