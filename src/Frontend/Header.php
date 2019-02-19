@@ -48,7 +48,7 @@ class Header {
 
     public function header_container_end() {
         if($this->is_in_container()) {
-            return '</div>';
+            echo '</div>';
         }
     }
 
@@ -96,7 +96,7 @@ class Header {
 			return;
 
 		$bloginfo = get_bloginfo('name');
-
+		
 		if (get_theme_mod('logo_' . $type . '_use_svg_id', false) && get_theme_mod('logo_' . $type . '_svg_id')) {
 
 			// get width
